@@ -15,5 +15,5 @@ class BjCard():
 
 
 
-    def gamevalue(self):
+    def value(self):
         return self.values[self.name]
