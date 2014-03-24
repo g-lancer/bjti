@@ -10,7 +10,7 @@ class BlackjackTest(unittest.TestCase):
 
     def test_card_value_01(self):
         bjcard = card.BjCard(0,0)
-        self.failUnless(bjcard.gamevalue() == 2)
+        self.failUnless(bjcard.gamevalue() == 3)
 
 def main():
     unittest.main()
