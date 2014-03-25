@@ -15,13 +15,14 @@ class BjCard():
         print(self.names[self.name], 'of ', self.suits[self.suit],', value ', self.values[self.name])
         return
 
-    def createdeck(self, decktype, numberofdecks):
+    @staticmethod
+    def createdeck( decktype, numberofdecks):
         deck = []
         if decktype == 1:
-            for i in range(len(self.suits)):
-                for j in range(4,len(self.names)):
-                    c1 = self.BjCard(i,j)
-                    deck = deck.append(c1)
+            for i in range(len(BjCard.suits)):
+                for j in range(4,len(BjCard.names)):
+                    c1 = BjCard(i,j)
+                    deck.append(c1)
         deck = deck * numberofdecks
         random.shuffle(deck)
         return deck
