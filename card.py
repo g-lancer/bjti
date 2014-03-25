@@ -11,9 +11,9 @@ class BjCard():
         self.suit = suit
         self.name = name
 
-    def print(self):
-        print(self.names[self.name], 'of ', self.suits[self.suit],', value ', self.values[self.name])
-        return
+    def __str__(self):
+        stringtoprint = self.names[self.name] + ' of ' + self.suits[self.suit] + ', value ' + str(self.values[self.name])
+        return stringtoprint
 
     @staticmethod
     def createdeck( decktype, numberofdecks):
