@@ -14,7 +14,7 @@ class BlackjackTest(unittest.TestCase):
 
     def testdecknorepeats(self):
         d1 = card.BjCard.createdeck(1,1)
-        d1.sort()
+        d1 = sorted(d1, key = lambda c1: c1.suit*100 + c1.name)
         hasdoubles = False
         for i in range(1,len(d1)):
             hasdoubles = hasdoubles and d1[i] == d1[i-1]
