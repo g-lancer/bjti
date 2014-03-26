@@ -22,7 +22,7 @@ class BlackjackTest(unittest.TestCase):
 
     def testdecknumcards(self):
         d1 = card.BjCard.createdeck(1,1)
-        self.failUnless(len(d1) == 36)
+        self.failUnless(len(d1) == 35)
 
 
 def main():
