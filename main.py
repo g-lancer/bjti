@@ -5,8 +5,8 @@ import card
 
 class BlackjackTest(unittest.TestCase):
 
-#    def test1(self):
-#        self.failUnless(False)
+# def test1(self):
+# self.failUnless(False)
 
     def test_cardvalue01(self):
         bjcard = card.BjCard(0,1)
@@ -14,11 +14,15 @@ class BlackjackTest(unittest.TestCase):
 
     def testdecknorepeats(self):
         d1 = card.BjCard.createdeck(1,1)
-        d1.sort()
+        d1 = sorted(d1, key = lambda c1: c1.suit*100 + c1.name)
         hasdoubles = False
         for i in range(1,len(d1)):
             hasdoubles = hasdoubles and d1[i] == d1[i-1]
         self.failIf(hasdoubles)
+
+    def testdecknumcards(self):
+        d1 = card.BjCard.createdeck(1,1)
+        self.failUnless(len(d1) == 36)
 
 
 def main():
