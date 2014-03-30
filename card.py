@@ -16,7 +16,7 @@ class BjCard():
         return stringtoprint
 
     @staticmethod
-    def createdeck( decktype, numberofdecks):
+    def createdeck(decktype, numberofdecks):
         deck = []
         if decktype == 1:
             for i in range(len(BjCard.suits)):
