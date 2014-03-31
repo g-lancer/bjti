@@ -50,3 +50,9 @@ class SmartCPUPlayer(Player):
             return True
         else:
             return False
+
+
+class HumanPlayer(Player):
+
+    def wantscard(self):
+        return gamelogic.GameLogic.getyesorno()

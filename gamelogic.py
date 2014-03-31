@@ -18,3 +18,14 @@ class GameLogic():
             return True
         else:
             return False
+
+    @staticmethod
+    def getyesorno():
+        viableanswers = ['y', 'n']
+        answer = ''
+        while answer not in viableanswers:
+            answer = input('can you please enter y for yes or n for now? \n')
+        if answer == 'y':
+            return True
+        else:
+            return False

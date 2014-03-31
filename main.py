@@ -64,6 +64,10 @@ class BlackjackTest(unittest.TestCase):
         p1.recievecard(self.cardv10)
         self.failUnless(p1.wantscard(1))
 
+    def testhuman(self):
+        p1 = player.Player.createplayer('human')
+        self.failUnless(p1.wantscard())
+
 
 def main():
     unittest.main()
