@@ -58,15 +58,34 @@ class BlackjackTest(unittest.TestCase):
         self.failUnless(gamelogic.GameLogic.cantakecards(handnoneed1) and gamelogic.GameLogic.cantakecards(handnoneed2)
                     and gamelogic.GameLogic.cantakecards(handnoneed3) and gamelogic.GameLogic.cantakecards(handnoneed4))
 
-    def testcarddesire(self):
-        p1 = player.Player.createplayer('bank')
+    def testsmartcarddesire(self):
+        p1 = player.Player.createplayer('scpu')
         p1.recievecard(self.cardv3)
         p1.recievecard(self.cardv10)
         self.failUnless(p1.wantscard(1))
 
+    def testbankcarddesire(self):
+        b1 = player.Player.createplayer('bank')
+        b1.recievecard(self.cardv3)
+        b1.recievecard(self.cardv10)
+        self.failUnless(b1.wantscard())
+
     def testhuman(self):
         p1 = player.Player.createplayer('human')
+        print('you better say yes')
         self.failUnless(p1.wantscard())
+
+    def testgetmax1(self):
+        l1 = [0,0,0,0]
+        methmax = gamelogic.GameLogic.getmaxindexes(l1)
+        expmax = list(range(len(l1)))
+        self.failUnless(methmax == expmax)
+
+    def testgetmax2(self):
+        l1 = [0,20,3,20,18]
+        methmax = gamelogic.GameLogic.getmaxindexes(l1)
+        expmax = [1,3]
+        self.failUnless(methmax == expmax)
 
 
 def main():

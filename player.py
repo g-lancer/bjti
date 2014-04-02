@@ -12,10 +12,12 @@ class Player():
 
     @staticmethod
     def createplayer(playertype):
-        if playertype == 'cpu':
+        if playertype == 'dcpu':
             p = DumbCPUPlayer()
-        elif playertype == 'bank':
+        elif playertype == 'scpu':
             p = SmartCPUPlayer()
+        elif playertype == 'bank':
+            p = Bank17()
         else:
             p = HumanPlayer()
         return p
@@ -51,8 +53,19 @@ class SmartCPUPlayer(Player):
         else:
             return False
 
+class Bank17(Player):
+
+    def wantscard(self):
+        if gamelogic.GameLogic.cantakecards(self.showhand()) < 17:
+            return True
+        else:
+            return False
+
 
 class HumanPlayer(Player):
 
     def wantscard(self):
+        for c1 in self.showhand():
+            print(c1)
+        print('this means your current score is ', gamelogic.GameLogic.cantakecards(self.showhand()), 'do you want a card?')
         return gamelogic.GameLogic.getyesorno()
