@@ -1,3 +1,4 @@
+from collections.__main__ import p
 import player
 
 __author__ = 'Gl'
@@ -88,9 +89,27 @@ class BlackjackTest(unittest.TestCase):
         self.failUnless(methmax == expmax)
 
 
-def main():
+
+def maintest():
     unittest.main()
 
+def playgame():
+    anothergame = True
+    playerswantcards = True
+    while anothergame:
+        playerlist = player.Player.createlistofplayers()
+        deck = card.BjCard.createdeck(1,len(playerlist))
+        for pl1 in playerlist:
+            pl1.recievecard(deck.pop(0))
+            pl1.recievecard(deck.pop(0))
+        while playerswantcards:
+            playerswantcards = False
+            for pl2 in playerlist:
+                if pl2.wantscard():
+                    pl2.recievecard(deck.pop(0))
+                    playerswantcards = True
+        gamelogic.GameLogic.getwinners(playerlist)
+        anothergame = gamelogic.GameLogic.getyesorno()
 
 if __name__ == '__main__':
-    main()
+    playgame()

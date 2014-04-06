@@ -29,6 +29,18 @@ class GameLogic():
             return True
         else:
             return False
+    @staticmethod
+    def getnumber():
+        num1 = -1
+        print('hey, can you give me a number?')
+        while not 0 < num1 < 10:
+            print('something from 0 and 9 will do')
+            str1 = input('something from 0 and 9 will do')
+            if str1.isnumeric():
+                num1 = int(str1)
+            else:
+                print('won\'t do,it\'s not a number')
+        return num1
 
     @staticmethod
     def getmaxindexes(list):

@@ -22,6 +22,22 @@ class Player():
             p = HumanPlayer()
         return p
 
+    @staticmethod
+    def createlistofplayers():
+        banker = Player.createplayer('bank')
+        humanplayer = Player.createplayer('human')
+        playerlist = [banker, humanplayer]
+        print('we have 1 banker and one human player here')
+        print('tell me how many dumb CPUs you want added to this game')
+        dumbcpunumber = gamelogic.GameLogic.getnumber()
+        for i in range(dumbcpunumber):
+            playerlist.append(Player.createplayer('dcpu'))
+        print('and now tell me how many smart CPUs you want here')
+        smartcpunumber = gamelogic.GameLogic.getnumber()
+        for i in range(smartcpunumber):
+            playerlist.append(Player.createplayer('scpu'))
+        return playerlist
+
     def wantscard(self):
         return False
 
@@ -67,5 +83,5 @@ class HumanPlayer(Player):
     def wantscard(self):
         for c1 in self.showhand():
             print(c1)
-        print('this means your current score is ', gamelogic.GameLogic.cantakecards(self.showhand()), 'do you want a card?')
+        print('this means your current score is ', gamelogic.GameLogic.gethandvalue(self.showhand()), 'do you want a card?')
         return gamelogic.GameLogic.getyesorno()
