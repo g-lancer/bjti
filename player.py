@@ -85,3 +85,4 @@ class HumanPlayer(Player):
             print(c1)
         print('this means your current score is ', gamelogic.GameLogic.gethandvalue(self.showhand()), 'do you want a card?')
         return gamelogic.GameLogic.getyesorno()
+#ffs
