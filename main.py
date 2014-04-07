@@ -111,6 +111,7 @@ def playgame():
                             playerswantcards = True
                     else:
                         if pl2.wantscard():
+                            #just a test for push
                             pl2.recievecard(deck.pop(0))
                             playerswantcards = True
         gamelogic.GameLogic.getwinners(playerlist)
