@@ -1,11 +1,9 @@
-from collections.__main__ import p
-import player
-
 __author__ = 'Gl'
 
 import unittest
 import card
 import gamelogic
+import player
 
 class BlackjackTest(unittest.TestCase):
 
@@ -96,6 +94,7 @@ def maintest():
 def playgame():
     anothergame = True
     playerswantcards = True
+    smartass = player.Player.createplayer('scpu')
     while anothergame:
         playerlist = player.Player.createlistofplayers()
         deck = card.BjCard.createdeck(1,len(playerlist))
@@ -105,11 +104,18 @@ def playgame():
         while playerswantcards:
             playerswantcards = False
             for pl2 in playerlist:
-                if pl2.wantscard():
-                    pl2.recievecard(deck.pop(0))
-                    playerswantcards = True
+                if gamelogic.GameLogic.cantakecards(pl2.showhand()):
+                    if type(pl2) == type(smartass):
+                        if pl2.wantscard(1):
+                            pl2.recievecard(deck.pop(0))
+                            playerswantcards = True
+                    else:
+                        if pl2.wantscard():
+                            pl2.recievecard(deck.pop(0))
+                            playerswantcards = True
         gamelogic.GameLogic.getwinners(playerlist)
         anothergame = gamelogic.GameLogic.getyesorno()
 
 if __name__ == '__main__':
     playgame()
+
