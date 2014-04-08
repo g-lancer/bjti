@@ -72,4 +72,4 @@ class GameLogic():
             print('hey! we have a winnder(s)')
             for pl in listofwinners:
                 print('it is player mumber', pl)
-#ffss
+#ffssstate
