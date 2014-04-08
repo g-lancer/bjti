@@ -18,11 +18,13 @@ class BjCard():
     @staticmethod
     def createdeck(decktype, numberofdecks):
         deck = []
-        if decktype == 1:
+        if decktype == 36:
             for i in range(len(BjCard.suits)):
                 for j in range(4,len(BjCard.names)):
                     c1 = BjCard(i,j)
                     deck.append(c1)
+        else:
+            print('unknow deck type, sry')
         deck = deck * numberofdecks
         random.shuffle(deck)
         return deck

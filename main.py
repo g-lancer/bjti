@@ -2,7 +2,7 @@ __author__ = 'Gl'
 
 import unittest
 import card
-import gamelogic
+import gamestate
 import player
 
 class BlackjackTest(unittest.TestCase):
@@ -43,8 +43,8 @@ class BlackjackTest(unittest.TestCase):
         handnoneed3 = [self.cardv10_2, self.cardv10, self.cardv3]
         handnoneed4 = [self.cardv10, self.cardv11]
 
-        self.failIf(gamelogic.GameLogic.cantakecards(handnoneed1) or gamelogic.GameLogic.cantakecards(handnoneed2)
-                    or gamelogic.GameLogic.cantakecards(handnoneed3) or gamelogic.GameLogic.cantakecards(handnoneed4))
+        self.failIf(gamestate.Gamestate.cantakecards(handnoneed1) or gamestate.Gamestate.cantakecards(handnoneed2)
+                    or gamestate.Gamestate.cantakecards(handnoneed3) or gamestate.Gamestate.cantakecards(handnoneed4))
 
     def testmorecards(self):
 #        #lets form a few hands of cards that don't need any more cards
@@ -54,8 +54,8 @@ class BlackjackTest(unittest.TestCase):
         handnoneed3 = [self.cardv10_2, self.cardv10]
         handnoneed4 = [self.cardv10, self.cardv3]
 
-        self.failUnless(gamelogic.GameLogic.cantakecards(handnoneed1) and gamelogic.GameLogic.cantakecards(handnoneed2)
-                    and gamelogic.GameLogic.cantakecards(handnoneed3) and gamelogic.GameLogic.cantakecards(handnoneed4))
+        self.failUnless(gamestate.Gamestate.cantakecards(handnoneed1) and gamestate.Gamestate.cantakecards(handnoneed2)
+                    and gamestate.Gamestate.cantakecards(handnoneed3) and gamestate.Gamestate.cantakecards(handnoneed4))
 
     def testsmartcarddesire(self):
         p1 = player.Player.createplayer('scpu')
@@ -76,13 +76,13 @@ class BlackjackTest(unittest.TestCase):
 
     def testgetmax1(self):
         l1 = [0,0,0,0]
-        methmax = gamelogic.GameLogic.getmaxindexes(l1)
+        methmax = gamestate.Gamestate.getmaxindexes(l1)
         expmax = list(range(len(l1)))
         self.failUnless(methmax == expmax)
 
     def testgetmax2(self):
         l1 = [0,20,3,20,18]
-        methmax = gamelogic.GameLogic.getmaxindexes(l1)
+        methmax = gamestate.Gamestate.getmaxindexes(l1)
         expmax = [1,3]
         self.failUnless(methmax == expmax)
 
@@ -97,14 +97,14 @@ def playgame():
     smartass = player.Player.createplayer('scpu')
     while anothergame:
         playerlist = player.Player.createlistofplayers()
-        deck = card.BjCard.createdeck(1,len(playerlist))
+        deck = card.BjCard.createdeck(36,len(playerlist))
         for pl1 in playerlist:
             pl1.recievecard(deck.pop(0))
             pl1.recievecard(deck.pop(0))
         while playerswantcards:
             playerswantcards = False
             for pl2 in playerlist:
-                if gamelogic.GameLogic.cantakecards(pl2.showhand()):
+                if gamestate.Gamestate.cantakecards(pl2.showhand()):
                     if type(pl2) == type(smartass):
                         if pl2.wantscard(1):
                             pl2.recievecard(deck.pop(0))
@@ -114,8 +114,8 @@ def playgame():
                             #just a test for push
                             pl2.recievecard(deck.pop(0))
                             playerswantcards = True
-        gamelogic.GameLogic.getwinners(playerlist)
-        anothergame = gamelogic.GameLogic.getyesorno()
+        gamestate.Gamestate.getwinners(playerlist)
+        anothergame = gamestate.Gamestate.getyesorno()
 
 if __name__ == '__main__':
     playgame()
