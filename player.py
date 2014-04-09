@@ -2,7 +2,7 @@ __author__ = 'Gl'
 
 
 import card
-import gamelogic
+import gamestate
 import random
 
 class Player():
@@ -10,79 +10,82 @@ class Player():
     def __init__(self):
         self.hand = []
 
-    @staticmethod
-    def createplayer(playertype):
-        if playertype == 'dcpu':
-            p = DumbCPUPlayer()
-        elif playertype == 'scpu':
-            p = SmartCPUPlayer()
-        elif playertype == 'bank':
-            p = Bank17()
-        else:
-            p = HumanPlayer()
-        return p
-
-    @staticmethod
-    def createlistofplayers():
-        banker = Player.createplayer('bank')
-        humanplayer = Player.createplayer('human')
-        playerlist = [banker, humanplayer]
-        print('we have 1 banker and one human player here')
-        print('tell me how many dumb CPUs you want added to this game')
-        dumbcpunumber = gamelogic.GameLogic.getnumber()
-        for i in range(dumbcpunumber):
-            playerlist.append(Player.createplayer('dcpu'))
-        print('and now tell me how many smart CPUs you want here')
-        smartcpunumber = gamelogic.GameLogic.getnumber()
-        for i in range(smartcpunumber):
-            playerlist.append(Player.createplayer('scpu'))
-        return playerlist
-
     def wantscard(self):
         return False
 
     def showhand(self):
         return self.hand
 
+    def gethandvalue(self):
+        val = 0
+        for card in self.hand:
+            val = val + card.value()
+        return val
+
     def recievecard(self, card):
         self.hand.append(card)
         return True
+
+    def hasspace(self):
+        val = self.gethandvalue()
+        if val < 21:
+            return True
+        else:
+            return False
 
 
 class DumbCPUPlayer(Player):
 
     def wantscard(self):
-        return random.choice([False,True])
+        if self.hasspace():
+            return random.choice([False,True])
+        else:
+            return False
 
 class SmartCPUPlayer(Player):
 
+    def __init__(self, decktype):
+        self.hand = []
+        self.decktype = decktype
+
     def wantscard(self, decktype):
-        maxvalue = 21 - gamelogic.GameLogic.gethandvalue(self.showhand())
-        tempdeck = card.BjCard.createdeck(decktype,1)
-        numberofsuitablecards = 0
-        for c1 in tempdeck:
-            if c1.value() <= maxvalue:
-                numberofsuitablecards = numberofsuitablecards + 1
-        chance = numberofsuitablecards/len(tempdeck)
-        if chance > 0.5:
-            return True
+        if self.hasspace():
+            maxvalue = 21 - self.gethandvalue()
+            tempdeck = card.BjCard.createdeck(decktype,1)
+            numberofsuitablecards = 0
+            for c1 in tempdeck:
+                if c1.value() <= maxvalue:
+                    numberofsuitablecards = numberofsuitablecards + 1
+            chance = numberofsuitablecards/len(tempdeck)
+            if chance > 0.5:
+                return True
+            else:
+                return False
         else:
             return False
 
 class Bank17(Player):
 
     def wantscard(self):
-        if gamelogic.GameLogic.cantakecards(self.showhand()) < 17:
-            return True
+        if self.hasspace():
+            if self.hasspace() < 17:
+                return True
+            else:
+                return False
         else:
             return False
 
 
 class HumanPlayer(Player):
+    didntrefuseyet = True
 
     def wantscard(self):
-        for c1 in self.showhand():
-            print(c1)
-        print('this means your current score is ', gamelogic.GameLogic.gethandvalue(self.showhand()), 'do you want a card?')
-        return gamelogic.GameLogic.getyesorno()
-#ffss
+
+        if self.hasspace() and self.didntrefuseyet:
+            for c1 in self.hand:
+                print(c1)
+            print('this means your current score is ', self.gethandvalue(), 'do you want a card?')
+            self.didntrefuseyet = gamestate.Gamestate.getyesorno()
+            return self.didntrefuseyet
+        else:
+            return False
