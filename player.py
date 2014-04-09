@@ -9,35 +9,6 @@ class Player():
 
     def __init__(self):
         self.hand = []
-        self.cantakecard = True
-
-    @staticmethod
-    def createplayer(playertype):
-        if playertype == 'dcpu':
-            p = DumbCPUPlayer()
-        elif playertype == 'scpu':
-            p = SmartCPUPlayer()
-        elif playertype == 'bank':
-            p = Bank17()
-        else:
-            p = HumanPlayer()
-        return p
-
-    @staticmethod
-    def createlistofplayers():
-        banker = Player.createplayer('bank')
-        humanplayer = Player.createplayer('human')
-        playerlist = [banker, humanplayer]
-        print('we have 1 banker and one human player here')
-        print('tell me how many dumb CPUs you want added to this game')
-        dumbcpunumber = gamestate.Gamestate.getnumber()
-        for i in range(dumbcpunumber):
-            playerlist.append(Player.createplayer('dcpu'))
-        print('and now tell me how many smart CPUs you want here')
-        smartcpunumber = gamestate.Gamestate.getnumber()
-        for i in range(smartcpunumber):
-            playerlist.append(Player.createplayer('scpu'))
-        return playerlist
 
     def wantsscard(self):
         return False
@@ -73,6 +44,10 @@ class DumbCPUPlayer(Player):
 
 class SmartCPUPlayer(Player):
 
+    def __init__(self, decktype):
+        self.hand = []
+        self.decktype = decktype
+
     def wantsscard(self, decktype):
         if self.hasspace():
             maxvalue = 21 - gamestate.Gamestate.gethandvalue(self.showhand())
@@ -102,12 +77,15 @@ class Bank17(Player):
 
 
 class HumanPlayer(Player):
+    didntrefuseyet = True
 
     def wantsscard(self):
-        if self.hasspace():
-            for c1 in self.hand():
+
+        if self.hasspace() and self.didntrefuseyet:
+            for c1 in self.hand:
                 print(c1)
             print('this means your current score is ', self.gethandvalue(), 'do you want a card?')
-            return gamestate.Gamestate.getyesorno()
+            self.didntrefuseyet = gamestate.Gamestate.getyesorno()
+            return self.didntrefuseyet
         else:
             return False

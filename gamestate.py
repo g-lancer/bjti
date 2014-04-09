@@ -5,7 +5,8 @@ import player
 
 class Gamestate():
 
-    def __init__(self, decktype)
+    def __init__(self, decktype):
+        self.decktype = decktype
         self.playerlist = player.Player.createlistofplayers()
         self.deck = card.BjCard.createdeck(decktype,len(playerlist))
 
@@ -41,6 +42,44 @@ class Gamestate():
                 listofmaximums.append(i)
         return listofmaximums
 
+    def createplayer(self,playertype):
+        if playertype == 'dcpu':
+            p = player.Player.DumbCPUPlayer()
+        elif playertype == 'scpu':
+            p = player.Player.SmartCPUPlayer()
+        elif playertype == 'bank':
+            p = player.Player.Bank17(self.decktype)
+        else:
+        p = HumanPlayer()
+        return p
+
+    def createlistofplayers(self):
+        banker = player.Player.createplayer('bank')
+        humanplayer = player.Player.createplayer('human')
+        roster = [banker, humanplayer]
+        print('we have 1 banker and one human player here')
+        print('tell me how many dumb CPUs you want added to this game')
+        dumbcpunumber = Gamestate.getnumber()
+        for i in range(dumbcpunumber):
+            roster.append(player.Player.createplayer('dcpu'))
+        print('and now tell me how many smart CPUs you want here')
+        smartcpunumber = Gamestate.getnumber()
+        for i in range(smartcpunumber):
+            roster.append(player.Player.createplayer('scpu'))
+        self.playerlist = roster
+
+    def give2startingcards(self):
+        for pl in self.playerlist:
+            pl.recievecard(self.deck.pop(0))
+            pl.recievecard(self.deck.pop(0))
+
+    def playrounds():
+        cardsnotwanted = False
+        while not cardsnotwanted:
+            for pl in self.playerlist:
+                if pl.wantscard():
+                    pl.recievecard(self.deck.pop(0))
+
     def announcewinners(self):
         #lets form a list of player points
         scores = []
@@ -61,3 +100,6 @@ class Gamestate():
             print('hey! we have a winnder(s)')
             for pl in listofwinners:
                 print('it is player mumber', pl)
+
+#http://habrahabr.ru/company/stratoplan/blog/218217/
+#don't boterh, just link transfer
