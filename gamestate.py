@@ -5,10 +5,11 @@ import player
 
 class Gamestate():
 
-    def __init__(self, decktype):
-        self.decktype = decktype
-        self.playerlist = player.Player.createlistofplayers()
-        self.deck = card.BjCard.createdeck(decktype,len(playerlist))
+    def __init__(self, decktype1):
+        self.decktype = decktype1
+        self.createlistofplayers()
+        self.deck = card.BjCard.createdeck(self.decktype,len(self.playerlist))
+
 
     @staticmethod
     def getyesorno():
@@ -24,7 +25,7 @@ class Gamestate():
     @staticmethod
     def getnumber():
         num1 = -1
-        print('hey, can you give me a number?')
+        #print('hey, can you give me a number?')
         while not 0 <= num1 < 10:
             str1 = input('something from 0 and 9 will do')
             if str1.isnumeric():
@@ -34,38 +35,38 @@ class Gamestate():
         return num1
 
     @staticmethod
-    def getmaxindexes(list):
-        max1 = max(list)
+    def getmaxindexes(list1):
+        max1 = max(list1)
         listofmaximums = []
-        for i in range(len(list)):
-            if list[i] == max1:
+        for i in range(len(list1)):
+            if list1[i] == max1:
                 listofmaximums.append(i)
         return listofmaximums
 
     def createplayer(self,playertype):
         if playertype == 'dcpu':
-            p = player.Player.DumbCPUPlayer()
+            p = player.DumbCPUPlayer()
         elif playertype == 'scpu':
-            p = player.Player.SmartCPUPlayer()
+            p = player.SmartCPUPlayer(self.decktype)
         elif playertype == 'bank':
-            p = player.Player.Bank17(self.decktype)
+            p = player.Bank17()
         else:
-        p = HumanPlayer()
+            p = player.HumanPlayer()
         return p
 
     def createlistofplayers(self):
-        banker = player.Player.createplayer('bank')
-        humanplayer = player.Player.createplayer('human')
+        banker = self.createplayer('bank')
+        humanplayer = self.createplayer('human')
         roster = [banker, humanplayer]
         print('we have 1 banker and one human player here')
         print('tell me how many dumb CPUs you want added to this game')
         dumbcpunumber = Gamestate.getnumber()
         for i in range(dumbcpunumber):
-            roster.append(player.Player.createplayer('dcpu'))
+            roster.append(self.createplayer('dcpu'))
         print('and now tell me how many smart CPUs you want here')
         smartcpunumber = Gamestate.getnumber()
         for i in range(smartcpunumber):
-            roster.append(player.Player.createplayer('scpu'))
+            roster.append(self.createplayer('scpu'))
         self.playerlist = roster
 
     def give2startingcards(self):
@@ -73,12 +74,14 @@ class Gamestate():
             pl.recievecard(self.deck.pop(0))
             pl.recievecard(self.deck.pop(0))
 
-    def playrounds():
+    def playrounds(self):
         cardsnotwanted = False
         while not cardsnotwanted:
+            cardsnotwanted = True
             for pl in self.playerlist:
                 if pl.wantscard():
                     pl.recievecard(self.deck.pop(0))
+                    cardsnotwanted = False
 
     def announcewinners(self):
         #lets form a list of player points

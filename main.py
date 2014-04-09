@@ -93,28 +93,11 @@ def maintest():
 
 def playgame():
     anothergame = True
-    playerswantcards = True
-    smartass = player.Player.createplayer('scpu')
     while anothergame:
-        playerlist = player.Player.createlistofplayers()
-        deck = card.BjCard.createdeck(36,len(playerlist))
-        for pl1 in playerlist:
-            pl1.recievecard(deck.pop(0))
-            pl1.recievecard(deck.pop(0))
-        while playerswantcards:
-            playerswantcards = False
-            for pl2 in playerlist:
-                if gamestate.Gamestate.cantakecards(pl2.showhand()):
-                    if type(pl2) == type(smartass):
-                        if pl2.wantscard(1):
-                            pl2.recievecard(deck.pop(0))
-                            playerswantcards = True
-                    else:
-                        if pl2.wantscard():
-                            #just a test for push
-                            pl2.recievecard(deck.pop(0))
-                            playerswantcards = True
-        gamestate.Gamestate.getwinners(playerlist)
+        game1 = gamestate.Gamestate(36)
+        game1.give2startingcards()
+        game1.playrounds()
+        game1.announcewinners()
         anothergame = gamestate.Gamestate.getyesorno()
 
 if __name__ == '__main__':

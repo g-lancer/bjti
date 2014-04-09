@@ -10,7 +10,7 @@ class Player():
     def __init__(self):
         self.hand = []
 
-    def wantsscard(self):
+    def wantscard(self):
         return False
 
     def showhand(self):
@@ -27,7 +27,7 @@ class Player():
         return True
 
     def hasspace(self):
-        val = self.hand
+        val = self.gethandvalue()
         if val < 21:
             return True
         else:
@@ -36,7 +36,7 @@ class Player():
 
 class DumbCPUPlayer(Player):
 
-    def wantsscard(self):
+    def wantscard(self):
         if self.hasspace():
             return random.choice([False,True])
         else:
@@ -48,9 +48,9 @@ class SmartCPUPlayer(Player):
         self.hand = []
         self.decktype = decktype
 
-    def wantsscard(self, decktype):
+    def wantscard(self, decktype):
         if self.hasspace():
-            maxvalue = 21 - gamestate.Gamestate.gethandvalue(self.showhand())
+            maxvalue = 21 - self.gethandvalue()
             tempdeck = card.BjCard.createdeck(decktype,1)
             numberofsuitablecards = 0
             for c1 in tempdeck:
@@ -66,9 +66,9 @@ class SmartCPUPlayer(Player):
 
 class Bank17(Player):
 
-    def wantsscard(self):
+    def wantscard(self):
         if self.hasspace():
-            if gamestate.Gamestate.cantakecards(self.showhand()) < 17:
+            if self.hasspace() < 17:
                 return True
             else:
                 return False
@@ -79,7 +79,7 @@ class Bank17(Player):
 class HumanPlayer(Player):
     didntrefuseyet = True
 
-    def wantsscard(self):
+    def wantscard(self):
 
         if self.hasspace() and self.didntrefuseyet:
             for c1 in self.hand:
