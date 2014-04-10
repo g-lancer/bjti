@@ -98,7 +98,9 @@ def playgame():
         game1.give2startingcards()
         game1.playrounds()
         game1.announcewinners()
+        print('ok, game\'s over, od you want another one?')
         anothergame = gamestate.Gamestate.getyesorno()
+        print('...')
 
 if __name__ == '__main__':
     playgame()

@@ -27,11 +27,11 @@ class Gamestate():
         num1 = -1
         #print('hey, can you give me a number?')
         while not 0 <= num1 < 10:
-            str1 = input('something from 0 and 9 will do')
+            str1 = input('something from 0 and 9 will do \n')
             if str1.isnumeric():
                 num1 = int(str1)
             else:
-                print('won\'t do,it\'s not a number')
+                print('won\'t do, it\'s not a number')
         return num1
 
     @staticmethod
@@ -100,9 +100,15 @@ class Gamestate():
         if 0 in listofwinners:
             print('ok, bank won this one.')
         else:
-            print('hey! we have a winnder(s)')
+            print('hey! we have a winner(s)')
             for pl in listofwinners:
+                if pl == 1:
+                    print('hey, our human won!!')
                 print('it is player mumber', pl)
+                if max(scores) > 21:
+                    print('double ace!')
+                else:
+                    print('score is ', max(scores))
 
 #http://habrahabr.ru/company/stratoplan/blog/218217/
 #don't boterh, just link transfer

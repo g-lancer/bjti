@@ -24,7 +24,6 @@ class Player():
 
     def recievecard(self, card):
         self.hand.append(card)
-        return True
 
     def hasspace(self):
         val = self.gethandvalue()
@@ -48,10 +47,10 @@ class SmartCPUPlayer(Player):
         self.hand = []
         self.decktype = decktype
 
-    def wantscard(self, decktype):
+    def wantscard(self):
         if self.hasspace():
             maxvalue = 21 - self.gethandvalue()
-            tempdeck = card.BjCard.createdeck(decktype,1)
+            tempdeck = card.BjCard.createdeck(self.decktype,1)
             numberofsuitablecards = 0
             for c1 in tempdeck:
                 if c1.value() <= maxvalue:
@@ -89,3 +88,8 @@ class HumanPlayer(Player):
             return self.didntrefuseyet
         else:
             return False
+
+    def recievecard(self, card):
+        self.hand.append(card)
+        print('you got ', card)
+        input('press enter to continue')
