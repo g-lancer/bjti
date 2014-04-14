@@ -24,7 +24,7 @@ class BjCard():
                     c1 = BjCard(i,j)
                     deck.append(c1)
         else:
-            print('unknow deck type, sry')
+            print('unknown deck type, sry')
         deck = deck * numberofdecks
         random.shuffle(deck)
         return deck

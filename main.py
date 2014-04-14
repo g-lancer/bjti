@@ -19,12 +19,14 @@ class BlackjackTest(unittest.TestCase):
     cardv11_2 = card.BjCard(2,12)    #Ace of hearts
 
 
-    def test_cardvalue01(self):
+    def testcardvalue01(self):
+        print('testcardvalue01')
         bjcard = card.BjCard(0,1)
         self.failUnless(bjcard.value() == 3)
 
     def testdecknorepeats(self):
-        d1 = card.BjCard.createdeck(1,1)
+        print('testdecknorepeats')
+        d1 = card.BjCard.createdeck(36,1)
         d1 = sorted(d1, key = lambda c1: c1.suit*100 + c1.name)
         hasdoubles = False
         for i in range(1,len(d1)):
@@ -32,55 +34,109 @@ class BlackjackTest(unittest.TestCase):
         self.failIf(hasdoubles)
 
     def testdecknumcards(self):
-        d1 = card.BjCard.createdeck(1,1)
+        print('testdecknumcards')
+        d1 = card.BjCard.createdeck(36,1)
         self.failUnless(len(d1) == 36)
 
     def testnomorecards(self):
+        print('testnomorecards')
 #        #lets form a few hands of cards that don't need any more cards
+
+        g1 = gamestate.Gamestate(36)
+        pltype1 = 'random garbage gives me human'
 
         handnoneed1 = [self.cardv11_2, self.cardv11]
         handnoneed2 = [self.cardv11_2, self.cardv11, self.cardv3]
         handnoneed3 = [self.cardv10_2, self.cardv10, self.cardv3]
         handnoneed4 = [self.cardv10, self.cardv11]
 
-        self.failIf(gamestate.Gamestate.cantakecards(handnoneed1) or gamestate.Gamestate.cantakecards(handnoneed2)
-                    or gamestate.Gamestate.cantakecards(handnoneed3) or gamestate.Gamestate.cantakecards(handnoneed4))
+        pl1 = g1.createplayer(pltype1)
+        pl2 = g1.createplayer(pltype1)
+        pl3 = g1.createplayer(pltype1)
+        pl4 = g1.createplayer(pltype1)
+
+        pl1.hand = handnoneed1
+        pl2.hand = handnoneed2
+        pl3.hand = handnoneed3
+        pl4.hand = handnoneed4
+
+        self.failIf( pl1.hasspace() or pl2.hasspace() or pl3.hasspace() or pl4.hasspace())
 
     def testmorecards(self):
+        print('testmorecards')
 #        #lets form a few hands of cards that don't need any more cards
 
-        handnoneed1 = [self.cardv11_2]
-        handnoneed2 = [self.cardv11_2, self.cardv3]
-        handnoneed3 = [self.cardv10_2, self.cardv10]
-        handnoneed4 = [self.cardv10, self.cardv3]
+        g1 = gamestate.Gamestate(36)
+        pltype1 = 'random garbage gives me human'
 
-        self.failUnless(gamestate.Gamestate.cantakecards(handnoneed1) and gamestate.Gamestate.cantakecards(handnoneed2)
-                    and gamestate.Gamestate.cantakecards(handnoneed3) and gamestate.Gamestate.cantakecards(handnoneed4))
+        handneed1 = [self.cardv11_2]
+        handneed2 = [self.cardv11_2, self.cardv3]
+        handneed3 = [self.cardv10_2, self.cardv10]
+        handneed4 = [self.cardv10, self.cardv3]
+
+        pl1 = g1.createplayer(pltype1)
+        pl2 = g1.createplayer(pltype1)
+        pl3 = g1.createplayer(pltype1)
+        pl4 = g1.createplayer(pltype1)
+
+        pl1.hand = handneed1
+        pl2.hand = handneed2
+        pl3.hand = handneed3
+        pl4.hand = handneed4
+
+        self.failUnless(pl1.hasspace() and pl2.hasspace() and pl3.hasspace() and pl3.hasspace())
 
     def testsmartcarddesire(self):
-        p1 = player.Player.createplayer('scpu')
+        print('testsmartcarddesire')
+        g1 = gamestate.Gamestate(36)
+        p1 = g1.createplayer('scpu')
         p1.recievecard(self.cardv3)
         p1.recievecard(self.cardv10)
-        self.failUnless(p1.wantscard(1))
+        self.failUnless(p1.hasspace())
 
-    def testbankcarddesire(self):
-        b1 = player.Player.createplayer('bank')
+    def testbankcarddesire1(self):
+        print('testbankcarddesire1')
+        g1 = gamestate.Gamestate(36)
+        b1 = g1.createplayer('bank')
         b1.recievecard(self.cardv3)
         b1.recievecard(self.cardv10)
         self.failUnless(b1.wantscard())
 
-    def testhuman(self):
-        p1 = player.Player.createplayer('human')
+    def testbankcarddesire2(self):
+        print('testbankcarddesire2')
+        g1 = gamestate.Gamestate(36)
+        b1 = g1.createplayer('bank')
+        b1.recievecard(self.cardv3)
+        b1.recievecard(self.cardv3)
+        b1.recievecard(self.cardv3)
+        b1.recievecard(self.cardv10)
+        print(b1.hand)
+        print(b1.gethandvalue())
+        self.failIf(b1.wantscard())
+
+    def testhumany(self):
+        print('testhumany')
+        g1 = gamestate.Gamestate(36)
+        p1 = g1.createplayer('human')
         print('you better say yes')
         self.failUnless(p1.wantscard())
 
+    def testhumann(self):
+        print('testhumann')
+        g1 = gamestate.Gamestate(36)
+        p1 = g1.createplayer('human')
+        print('you better say no')
+        self.failIf(p1.wantscard())
+
     def testgetmax1(self):
+        print('testgetmax1')
         l1 = [0,0,0,0]
         methmax = gamestate.Gamestate.getmaxindexes(l1)
         expmax = list(range(len(l1)))
         self.failUnless(methmax == expmax)
 
     def testgetmax2(self):
+        print('testgetmax2')
         l1 = [0,20,3,20,18]
         methmax = gamestate.Gamestate.getmaxindexes(l1)
         expmax = [1,3]
@@ -103,5 +159,5 @@ def playgame():
         print('...')
 
 if __name__ == '__main__':
-    playgame()
+    maintest()
 

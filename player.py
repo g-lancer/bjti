@@ -67,7 +67,7 @@ class Bank17(Player):
 
     def wantscard(self):
         if self.hasspace():
-            if self.hasspace() < 17:
+            if self.gethandvalue() < 17:
                 return True
             else:
                 return False
