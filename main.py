@@ -6,6 +6,13 @@ import gamestate
 import player
 
 class BlackjackTest(unittest.TestCase):
+#    print('let\'s make 0 cpu game')
+#    g0 = gamestate.GameState(36)
+#    print('and now at least each of the kind cpu')
+    failg = gamestate.Gamestate(2)  #added just for coverage
+    g2 = gamestate.Gamestate(36)
+#    print('just 1 dumb cpu added for the test coverage')
+    dumbdummy = g2.createplayer('dcpu')
 
 # def test1(self):
 # self.failUnless(False)
@@ -42,7 +49,6 @@ class BlackjackTest(unittest.TestCase):
         print('testnomorecards')
 #        #lets form a few hands of cards that don't need any more cards
 
-        g1 = gamestate.Gamestate(36)
         pltype1 = 'random garbage gives me human'
 
         handnoneed1 = [self.cardv11_2, self.cardv11]
@@ -50,10 +56,10 @@ class BlackjackTest(unittest.TestCase):
         handnoneed3 = [self.cardv10_2, self.cardv10, self.cardv3]
         handnoneed4 = [self.cardv10, self.cardv11]
 
-        pl1 = g1.createplayer(pltype1)
-        pl2 = g1.createplayer(pltype1)
-        pl3 = g1.createplayer(pltype1)
-        pl4 = g1.createplayer(pltype1)
+        pl1 = self.g2.createplayer(pltype1)
+        pl2 = self.g2.createplayer(pltype1)
+        pl3 = self.g2.createplayer(pltype1)
+        pl4 = self.g2.createplayer(pltype1)
 
         pl1.hand = handnoneed1
         pl2.hand = handnoneed2
@@ -66,7 +72,6 @@ class BlackjackTest(unittest.TestCase):
         print('testmorecards')
 #        #lets form a few hands of cards that don't need any more cards
 
-        g1 = gamestate.Gamestate(36)
         pltype1 = 'random garbage gives me human'
 
         handneed1 = [self.cardv11_2]
@@ -74,10 +79,10 @@ class BlackjackTest(unittest.TestCase):
         handneed3 = [self.cardv10_2, self.cardv10]
         handneed4 = [self.cardv10, self.cardv3]
 
-        pl1 = g1.createplayer(pltype1)
-        pl2 = g1.createplayer(pltype1)
-        pl3 = g1.createplayer(pltype1)
-        pl4 = g1.createplayer(pltype1)
+        pl1 = self.g2.createplayer(pltype1)
+        pl2 = self.g2.createplayer(pltype1)
+        pl3 = self.g2.createplayer(pltype1)
+        pl4 = self.g2.createplayer(pltype1)
 
         pl1.hand = handneed1
         pl2.hand = handneed2
@@ -88,43 +93,56 @@ class BlackjackTest(unittest.TestCase):
 
     def testsmartcarddesire(self):
         print('testsmartcarddesire')
-        g1 = gamestate.Gamestate(36)
-        p1 = g1.createplayer('scpu')
+        p1 = self.g2.createplayer('scpu')
         p1.recievecard(self.cardv3)
         p1.recievecard(self.cardv10)
         self.failUnless(p1.hasspace())
 
     def testbankcarddesire1(self):
         print('testbankcarddesire1')
-        g1 = gamestate.Gamestate(36)
-        b1 = g1.createplayer('bank')
+        b1 = self.g2.createplayer('bank')
         b1.recievecard(self.cardv3)
         b1.recievecard(self.cardv10)
         self.failUnless(b1.wantscard())
 
     def testbankcarddesire2(self):
         print('testbankcarddesire2')
-        g1 = gamestate.Gamestate(36)
-        b1 = g1.createplayer('bank')
+        b1 = self.g2.createplayer('bank')
         b1.recievecard(self.cardv3)
         b1.recievecard(self.cardv3)
         b1.recievecard(self.cardv3)
         b1.recievecard(self.cardv10)
-        print(b1.hand)
-        print(b1.gethandvalue())
         self.failIf(b1.wantscard())
+
+    def testsmartcpudesiren(self):
+        print('testsmartcpudesire')
+        pl = self.g2.createplayer('scpu')
+        pl.recievecard(self.cardv10)
+        pl.recievecard(self.cardv10_2)
+        self.failIf(pl.wantscard())
+
+    def testsmartcpudesirey(self):
+        pl = self.g2.createplayer('scpu')
+        pl.recievecard(self.cardv10)
+        self.failUnless(pl.wantscard())
+
+    def testdumbplayer(self):
+        pl = self.g2.createplayer('dcpu')
+        t = pl.wantscard()
+        t = pl.wantscard()
+        t = pl.wantscard()
+        t = pl.wantscard()
+        self.failUnless(True)
 
     def testhumany(self):
         print('testhumany')
-        g1 = gamestate.Gamestate(36)
-        p1 = g1.createplayer('human')
+        p1 = self.g2.createplayer('human')
         print('you better say yes')
         self.failUnless(p1.wantscard())
 
     def testhumann(self):
         print('testhumann')
-        g1 = gamestate.Gamestate(36)
-        p1 = g1.createplayer('human')
+        p1 = self.g2.createplayer('human')
         print('you better say no')
         self.failIf(p1.wantscard())
 
@@ -141,6 +159,9 @@ class BlackjackTest(unittest.TestCase):
         methmax = gamestate.Gamestate.getmaxindexes(l1)
         expmax = [1,3]
         self.failUnless(methmax == expmax)
+
+    def testgame(self):
+        playgame()
 
 
 
@@ -161,3 +182,6 @@ def playgame():
 if __name__ == '__main__':
     maintest()
 
+#link transfer
+#http://portforward.com/english/routers/port_forwarding/Asus/WL-500G/Risk_of_Rain.htm
+#http://maps.yandex.ru/?text=%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F%2C%20%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%204-%D1%8F%20%D0%BB%D0%B8%D0%BD%D0%B8%D1%8F%20%D0%92.%D0%9E.%2C%2065&sll=30.275408%2C59.949163&ll=30.275408%2C59.949163&spn=0.052571%2C0.016339&z=15&l=map
