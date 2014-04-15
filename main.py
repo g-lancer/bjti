@@ -6,18 +6,10 @@ import gamestate
 import player
 
 class BlackjackTest(unittest.TestCase):
-#    print('let\'s make 0 cpu game')
-#    g0 = gamestate.GameState(36)
-#    print('and now at least each of the kind cpu')
-    failg = gamestate.Gamestate(2)  #added just for coverage
+
+#    failg = gamestate.Gamestate(2)  #added just for coverage
     g2 = gamestate.Gamestate(36)
-#    print('just 1 dumb cpu added for the test coverage')
     dumbdummy = g2.createplayer('dcpu')
-
-# def test1(self):
-# self.failUnless(False)
-
-#lets have a bunch of cards here
 
     cardv3 = card.BjCard(1,1)        #here goes 3 of diamonds (value 3)
     cardv10 = card.BjCard(0,8)       #10 of clubs
@@ -65,6 +57,8 @@ class BlackjackTest(unittest.TestCase):
         pl2.hand = handnoneed2
         pl3.hand = handnoneed3
         pl4.hand = handnoneed4
+
+        self.g2.announcewinners()
 
         self.failIf( pl1.hasspace() or pl2.hasspace() or pl3.hasspace() or pl4.hasspace())
 
@@ -160,8 +154,24 @@ class BlackjackTest(unittest.TestCase):
         expmax = [1,3]
         self.failUnless(methmax == expmax)
 
-    def testgame(self):
-        playgame()
+#    def testgame(self):
+#        playgame()
+
+    def testtoomanycards(self):
+        print('testtoomanycards')
+        hpl = self.g2.createplayer('human')
+        dpl = self.g2.createplayer('dcpu')
+        spl = self.g2.createplayer('scpu')
+        bpl = self.g2.createplayer('bank')
+
+        failhand = [self.cardv10, self.cardv11, self.cardv10_2]
+
+        hpl.hand = failhand
+        dpl.hand = failhand
+        spl.hand = failhand
+        bpl.hand = failhand
+
+        self.failIf(hpl.wantscard() or dpl.wantscard() or spl.wantscard() or bpl.wantscard())
 
 
 
