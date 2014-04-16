@@ -6,8 +6,7 @@ import gamestate
 import player
 
 class BlackjackTest(unittest.TestCase):
-
-#    failg = gamestate.Gamestate(2)  #added just for coverage
+    failg = gamestate.Gamestate(2)  #added just for coverage
     g2 = gamestate.Gamestate(36)
     dumbdummy = g2.createplayer('dcpu')
 
@@ -58,7 +57,7 @@ class BlackjackTest(unittest.TestCase):
         pl3.hand = handnoneed3
         pl4.hand = handnoneed4
 
-        self.g2.getwinners()
+        self.g2.getleaders()
 
         self.failIf( pl1.hasspace() or pl2.hasspace() or pl3.hasspace() or pl4.hasspace())
 
@@ -194,7 +193,7 @@ class BlackjackTest(unittest.TestCase):
 
         self.g2.playerlist = [pl1, pl2, pl3, pl4]
 
-        self.failUnless(self.g2.getwinners() == [2])
+        self.failUnless(self.g2.getleaders() == [2])
 
     def testgetwinners2(self):
         print('testgetwinners2')
@@ -217,13 +216,7 @@ class BlackjackTest(unittest.TestCase):
         pl4.hand = handneed4
 
         self.g2.playerlist = [pl1, pl2, pl3, pl4]
-
-
-        print('==========')
-        print('testgetwinners2', self.g2.getwinners())
-        print('==========')
-
-        self.failUnless(self.g2.getwinners() == [0])
+        self.failUnless(self.g2.getleaders() == [0])
 
     def testgetwinners3(self):
         print('testgetwinners3')
@@ -246,9 +239,8 @@ class BlackjackTest(unittest.TestCase):
         pl4.hand = handneed4
 
         self.g2.playerlist = [pl1, pl2, pl3, pl4]
-        print(self.g2.getwinners())
 
-        self.failUnless(self.g2.getwinners() == [1])
+        self.failUnless(self.g2.getleaders() == [1])
 
     def testgetwinners4(self):
 
@@ -271,7 +263,29 @@ class BlackjackTest(unittest.TestCase):
 
         self.g2.playerlist = [pl1, pl2, pl3, pl4]
 
-        self.failUnless(self.g2.getwinners() == [1,2])
+        self.failUnless(self.g2.getleaders() == [1,2])
+
+    def testgetwinners5(self):
+
+        pltype1 = 'random garbage gives me human'
+
+        handneed1 = [self.cardv11, self.cardv3]
+        handneed2 = [self.cardv11_2, self.cardv3]
+        handneed3 = [self.cardv11, self.cardv3]
+        handneed4 = [self.cardv10, self.cardv3]
+
+        pl1 = self.g2.createplayer(pltype1)
+        pl2 = self.g2.createplayer(pltype1)
+        pl3 = self.g2.createplayer(pltype1)
+        pl4 = self.g2.createplayer(pltype1)
+
+        pl1.hand = handneed1
+        pl2.hand = handneed2
+        pl3.hand = handneed3
+        pl4.hand = handneed4
+
+        self.g2.playerlist = [pl1, pl2, pl3, pl4]
+        self.failUnless(self.g2.getleaders() == [0,1,2])
 
 def maintest():
     unittest.main()
@@ -282,14 +296,14 @@ def playgame():
         game1 = gamestate.Gamestate(36)
         game1.give2startingcards()
         game1.playrounds()
-        winners = game1.getwinners()
+        winners = game1.getleaders()
         gamestate.Gamestate.printwinners(winners)
         print('ok, game\'s over, do you want another one?')
         anothergame = gamestate.Gamestate.getyesorno()
         print('...')
 
 if __name__ == '__main__':
-    playgame()
+    maintest()
 
 #link transfer
 #http://portforward.com/english/routers/port_forwarding/Asus/WL-500G/Risk_of_Rain.htm

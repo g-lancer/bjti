@@ -99,7 +99,7 @@ class Gamestate():
                     pl.recievecard(self.deck.pop(0))
                     cardsnotwanted = False
 
-    def getwinners(self):
+    def getleaders(self):
         #lets form a list of player points
         scores = []
         for player in self.playerlist:
@@ -109,11 +109,10 @@ class Gamestate():
             elif pscore == 22:
                 if len(player.showhand()) > 2:
                     scores.append(0)
+                else:
+                    scores.append(pscore)
             else:
                 scores.append(pscore)
-
-        print(scores)
-
         listofwinners = Gamestate.getmaxindexes(scores)
         return listofwinners
 
