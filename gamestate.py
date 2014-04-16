@@ -43,6 +43,22 @@ class Gamestate():
                 listofmaximums.append(i)
         return listofmaximums
 
+    @staticmethod
+    def printwinners(listofwinners):
+        if 0 in listofwinners:
+            print('ok, bank won this one.')
+        else:
+            print('hey! we have a winner(s)')
+            for pl in listofwinners:
+                if pl == 1:
+                    print('hey, our human won!!')
+                print('it is player mumber', pl)
+            if listofwinners[0].gethandvalue() > 21:      #I don't like this 0 here
+                #this is fail (it's int -_-)
+                print('double ace!')
+            else:
+                print('score is ', listofwinners[0].gethandvalue())
+
     def createplayer(self,playertype):
         if playertype == 'dcpu':
             p = player.DumbCPUPlayer()
@@ -83,7 +99,7 @@ class Gamestate():
                     pl.recievecard(self.deck.pop(0))
                     cardsnotwanted = False
 
-    def announcewinners(self):
+    def getwinners(self):
         #lets form a list of player points
         scores = []
         for player in self.playerlist:
@@ -96,19 +112,10 @@ class Gamestate():
             else:
                 scores.append(pscore)
 
+        print(scores)
+
         listofwinners = Gamestate.getmaxindexes(scores)
-        if 0 in listofwinners:
-            print('ok, bank won this one.')
-        else:
-            print('hey! we have a winner(s)')
-            for pl in listofwinners:
-                if pl == 1:
-                    print('hey, our human won!!')
-                print('it is player mumber', pl)
-                if max(scores) > 21:
-                    print('double ace!')
-                else:
-                    print('score is ', max(scores))
+        return listofwinners
 
 #http://habrahabr.ru/company/stratoplan/blog/218217/
 #don't boterh, just link transfer
