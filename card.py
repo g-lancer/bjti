@@ -4,7 +4,8 @@ import random
 
 class BjCard():
     suits = ['clubs', 'diamonds', 'hearts', 'spades']
-    names = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+    names = ['2', '3', '4', '5', '6', '7', '8',
+             '9', '10', 'J', 'Q', 'K', 'A']
     values = [2, 3, 4, 5, 6, 7, 8, 0, 10, 2, 3, 4, 11]
 
     def __init__(self, suit, name):
@@ -12,11 +13,13 @@ class BjCard():
         self.name = name
 
     def __str__(self):
-        stringtoprint = self.names[self.name] + ' of ' + self.suits[self.suit] + ', value ' + str(self.values[self.name])
+        stringtoprint = self.names[self.name] + ' of ' +\
+                        self.suits[self.suit] + ', value ' +\
+                        str(self.values[self.name])
         return stringtoprint
 
     @staticmethod
-    def createdeck(decktype, numberofdecks):
+    def create_deck(decktype, numberofdecks):
         deck = []
         if decktype == 36:
             for i in range(len(BjCard.suits)):

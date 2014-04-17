@@ -3,16 +3,16 @@ __author__ = 'Gl'
 import card
 import player
 
-class Gamestate():
+class GameState():
 
     def __init__(self, decktype1):
         self.decktype = decktype1
-        self.createlistofplayers()
-        self.deck = card.BjCard.createdeck(self.decktype,len(self.playerlist))
+        self.create_list_of_players()
+        self.deck = card.BjCard.create_deck(self.decktype,len(self.playerlist))
 
 
     @staticmethod
-    def getyesorno():
+    def get_yes_or_no():
         viableanswers = ['y', 'n']
         answer = ''
         while answer not in viableanswers:
@@ -23,7 +23,7 @@ class Gamestate():
             return False
 
     @staticmethod
-    def getnumber():
+    def get_number():
         num1 = -1
         #print('hey, can you give me a number?')
         while not 0 <= num1 < 10:
@@ -35,7 +35,7 @@ class Gamestate():
         return num1
 
     @staticmethod
-    def getmaxindexes(list1):
+    def get_max_indexes(list1):
         max1 = max(list1)
         listofmaximums = []
         for i in range(len(list1)):
@@ -44,7 +44,7 @@ class Gamestate():
         return listofmaximums
 
     @staticmethod
-    def printwinners(listofwinners):
+    def print_winners(listofwinners):
         if 0 in listofwinners:
             print('ok, bank won this one.')
         else:
@@ -53,13 +53,13 @@ class Gamestate():
                 if pl == 1:
                     print('hey, our human won!!')
                 print('it is player mumber', pl)
-            if listofwinners[0].gethandvalue() > 21:      #I don't like this 0 here
+            if listofwinners[0].get_hand_value() > 21:      #I don't like this 0 here
                 #this is fail (it's int -_-)
                 print('double ace!')
             else:
-                print('score is ', listofwinners[0].gethandvalue())
+                print('score is ', listofwinners[0].get_hand_value())
 
-    def createplayer(self,playertype):
+    def create_player(self,playertype):
         if playertype == 'dcpu':
             p = player.DumbCPUPlayer()
         elif playertype == 'scpu':
@@ -70,50 +70,50 @@ class Gamestate():
             p = player.HumanPlayer()
         return p
 
-    def createlistofplayers(self):
-        banker = self.createplayer('bank')
-        humanplayer = self.createplayer('human')
+    def create_list_of_players(self):
+        banker = self.create_player('bank')
+        humanplayer = self.create_player('human')
         roster = [banker, humanplayer]
         print('we have 1 banker and one human player here')
         print('tell me how many dumb CPUs you want added to this game')
-        dumbcpunumber = Gamestate.getnumber()
+        dumbcpunumber = GameState.get_number()
         for i in range(dumbcpunumber):
-            roster.append(self.createplayer('dcpu'))
+            roster.append(self.create_player('dcpu'))
         print('and now tell me how many smart CPUs you want here')
-        smartcpunumber = Gamestate.getnumber()
+        smartcpunumber = GameState.get_number()
         for i in range(smartcpunumber):
-            roster.append(self.createplayer('scpu'))
+            roster.append(self.create_player('scpu'))
         self.playerlist = roster
 
-    def give2startingcards(self):
+    def give_2_starting_cards(self):
         for pl in self.playerlist:
-            pl.recievecard(self.deck.pop(0))
-            pl.recievecard(self.deck.pop(0))
+            pl.recieve_card(self.deck.pop(0))
+            pl.recieve_card(self.deck.pop(0))
 
-    def playrounds(self):
+    def play_rounds(self):
         cardsnotwanted = False
         while not cardsnotwanted:
             cardsnotwanted = True
             for pl in self.playerlist:
-                if pl.wantscard():
-                    pl.recievecard(self.deck.pop(0))
+                if pl.wants_card():
+                    pl.recieve_card(self.deck.pop(0))
                     cardsnotwanted = False
 
-    def getleaders(self):
+    def get_leaders(self):
         #lets form a list of player points
         scores = []
         for player in self.playerlist:
-            pscore = player.gethandvalue()
+            pscore = player.get_hand_value()
             if pscore > 22:
                 scores.append(0)
             elif pscore == 22:
-                if len(player.showhand()) > 2:
+                if len(player.show_hand()) > 2:
                     scores.append(0)
                 else:
                     scores.append(pscore)
             else:
                 scores.append(pscore)
-        listofwinners = Gamestate.getmaxindexes(scores)
+        listofwinners = GameState.get_max_indexes(scores)
         return listofwinners
 
 #http://habrahabr.ru/company/stratoplan/blog/218217/
