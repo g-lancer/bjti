@@ -2,7 +2,7 @@ __author__ = 'Gl'
 
 
 import card
-import gamestate
+import utils
 import random
 
 class Player():
@@ -12,6 +12,9 @@ class Player():
 
     def wants_card(self):
         return False
+
+    def show_type(self):
+        return ''
 
     def show_hand(self):
         return self.hand
@@ -41,11 +44,18 @@ class DumbCPUPlayer(Player):
         else:
             return False
 
+    def show_type(self):
+        return 'dumb cpu'
+
+
 class SmartCPUPlayer(Player):
 
     def __init__(self, decktype):
-        self.hand = []
+        super().__init__()
         self.decktype = decktype
+
+    def show_type(self):
+        return 'smart cpu'
 
     def wants_card(self):
         if self.has_space():
@@ -63,7 +73,11 @@ class SmartCPUPlayer(Player):
         else:
             return False
 
+
 class Bank17(Player):
+
+    def show_type(self):
+        return 'bank'
 
     def wants_card(self):
         if self.has_space():
@@ -76,19 +90,25 @@ class Bank17(Player):
 
 
 class HumanPlayer(Player):
-    didntrefuseyet = True
+    didnt_refuse_yet = True
+
+    def __init__self(self):
+        super().__init__()
 
     def wants_card(self):
 
-        if self.has_space() and self.didntrefuseyet:
+        if self.has_space() and self.didnt_refuse_yet:
             for c1 in self.hand:
                 print(c1)
             print('this means your current score is ',\
                   self.get_hand_value(), 'do you want a card?')
-            self.didntrefuseyet = gamestate.GameState.get_yes_or_no()
-            return self.didntrefuseyet
+            self.didnt_refuse_yet = utils.get_yes_or_no()
+            return self.didnt_refuse_yet
         else:
             return False
+
+    def show_type(self):
+        return 'human'
 
     def recieve_card(self, card):
         self.hand.append(card)

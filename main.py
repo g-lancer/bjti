@@ -3,7 +3,10 @@ __author__ = 'Gl'
 import unittest
 import card
 import gamestate
-import player
+import utils
+
+#lets have some constants
+NORMALDECK = 36
 
 class BlackjackTest(unittest.TestCase):
     failg = gamestate.GameState(2)  #added just for coverage
@@ -142,14 +145,14 @@ class BlackjackTest(unittest.TestCase):
     def testgetmax1(self):
         print('testgetmax1')
         l1 = [0,0,0,0]
-        methmax = gamestate.GameState.get_max_indexes(l1)
+        methmax = utils.get_max_indexes(l1)
         expmax = list(range(len(l1)))
         self.failUnless(methmax == expmax)
 
     def testgetmax2(self):
         print('testgetmax2')
         l1 = [0,20,3,20,18]
-        methmax = gamestate.GameState.get_max_indexes(l1)
+        methmax = utils.get_max_indexes(l1)
         expmax = [1,3]
         self.failUnless(methmax == expmax)
 
@@ -293,19 +296,11 @@ def maintest():
 
 def playgame():
     anothergame = True
-    while anothergame:
-        game1 = gamestate.GameState(36)
-        game1.give_2_starting_cards()
-        game1.play_rounds()
-        winners = game1.get_leaders()
-        gamestate.GameState.print_winners(winners)
-        print('ok, game\'s over, do you want another one?')
-        anothergame = gamestate.GameState.get_yes_or_no()
-        print('...')
+        while anothergame:
+            game = gamestate.GameState(NORMALDECK)
+            game.run_game()
 
 if __name__ == '__main__':
     maintest()
 
 #link transfer
-#http://portforward.com/english/routers/port_forwarding/Asus/WL-500G/Risk_of_Rain.htm
-#http://maps.yandex.ru/?text=%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F%2C%20%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%204-%D1%8F%20%D0%BB%D0%B8%D0%BD%D0%B8%D1%8F%20%D0%92.%D0%9E.%2C%2065&sll=30.275408%2C59.949163&ll=30.275408%2C59.949163&spn=0.052571%2C0.016339&z=15&l=map
