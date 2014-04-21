@@ -296,11 +296,16 @@ def maintest():
 
 def playgame():
     anothergame = True
-        while anothergame:
-            game = gamestate.GameState(NORMALDECK)
-            game.run_game()
+    while anothergame:
+        game = gamestate.GameState(NORMALDECK)
+        anothergame = game.run_game()
 
 if __name__ == '__main__':
-    maintest()
+    playgame()
 
 #link transfer
+#http://guildwarstemple.com/dragontimer/events.php?serverKey=207&langKey=en
+#http://gw2sched.azurewebsites.net/
+#https://www.guildwars2.com/en/news/the-megaserver-system-world-bosses-and-events/
+#http://habrahabr.ru/company/stratoplan/blog/218217/
+#zach bell

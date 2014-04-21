@@ -6,6 +6,7 @@ import utils
 import random
 
 class Player():
+    player_type = ''
 
     def __init__(self):
         self.hand = []
@@ -14,7 +15,7 @@ class Player():
         return False
 
     def show_type(self):
-        return ''
+        return self.player_type
 
     def show_hand(self):
         return self.hand
@@ -37,6 +38,7 @@ class Player():
 
 
 class DumbCPUPlayer(Player):
+    player_type = 'dumb cpu'
 
     def wants_card(self):
         if self.has_space():
@@ -44,18 +46,12 @@ class DumbCPUPlayer(Player):
         else:
             return False
 
-    def show_type(self):
-        return 'dumb cpu'
-
-
 class SmartCPUPlayer(Player):
+    player_type = 'smart cpu'
 
     def __init__(self, decktype):
         super().__init__()
         self.decktype = decktype
-
-    def show_type(self):
-        return 'smart cpu'
 
     def wants_card(self):
         if self.has_space():
@@ -75,9 +71,7 @@ class SmartCPUPlayer(Player):
 
 
 class Bank17(Player):
-
-    def show_type(self):
-        return 'bank'
+    player_type = 'bank'
 
     def wants_card(self):
         if self.has_space():
@@ -91,6 +85,7 @@ class Bank17(Player):
 
 class HumanPlayer(Player):
     didnt_refuse_yet = True
+    player_type = 'human'
 
     def __init__self(self):
         super().__init__()
@@ -106,9 +101,6 @@ class HumanPlayer(Player):
             return self.didnt_refuse_yet
         else:
             return False
-
-    def show_type(self):
-        return 'human'
 
     def recieve_card(self, card):
         self.hand.append(card)
