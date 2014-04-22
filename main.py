@@ -9,8 +9,8 @@ import utils
 NORMALDECK = 36
 
 class BlackjackTest(unittest.TestCase):
-    failg = gamestate.GameState(2)  #added just for coverage
-    g2 = gamestate.GameState(36)
+#    failg = gamestate.GameStateBJ(2)  #added just for coverage
+    g2 = gamestate.GameStateBJ(NORMALDECK)
     dumbdummy = g2.create_player('dcpu')
 
     cardv3 = card.BjCard(1,1)        #here goes 3 of diamonds (value 3)
@@ -291,13 +291,17 @@ class BlackjackTest(unittest.TestCase):
         self.g2.playerlist = [pl1, pl2, pl3, pl4]
         self.failUnless(self.g2.get_leaders() == [0,1,2])
 
+class DurakTest(unittest.TestCase):
+    def test_beat(self, attack_card, defence_card):
+        self.failUnless(defence_card.beats(attack_card))
+
 def maintest():
     unittest.main()
 
 def playgame():
     anothergame = True
     while anothergame:
-        game = gamestate.GameState(NORMALDECK)
+        game = gamestate.GameStateBJ(NORMALDECK)
         anothergame = game.run_game()
 
 if __name__ == '__main__':
@@ -308,4 +312,4 @@ if __name__ == '__main__':
 #http://gw2sched.azurewebsites.net/
 #https://www.guildwars2.com/en/news/the-megaserver-system-world-bosses-and-events/
 #http://habrahabr.ru/company/stratoplan/blog/218217/
-#zach bell
+#http://www.imdb.com/title/tt1843230/

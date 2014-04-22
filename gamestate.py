@@ -7,7 +7,7 @@ import utils
 MIN_PLAYERS = 0
 MAX_PLAYERS = 7
 
-class GameState():
+class GameStateBJ():
 
     def __init__(self, decktype1):
         self.decktype = decktype1
