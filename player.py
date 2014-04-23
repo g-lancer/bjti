@@ -56,12 +56,12 @@ class SmartCPUPlayer(Player):
     def wants_card(self):
         if self.has_space():
             maxvalue = 21 - self.get_hand_value()
-            tempdeck = card.BjCard.create_deck(self.decktype,1)
-            numberofsuitablecards = 0
-            for c1 in tempdeck:
+            temp_deck = card.BJCard.create_deck(self.decktype,1)
+            number_of_suitable_cards = 0
+            for c1 in temp_deck:
                 if c1.value() <= maxvalue:
-                    numberofsuitablecards += 1
-            chance = numberofsuitablecards/len(tempdeck)
+                    number_of_suitable_cards += 1
+            chance = number_of_suitable_cards/len(temp_deck)
             if chance > 0.5:
                 return True
             else:
@@ -96,13 +96,14 @@ class HumanPlayer(Player):
             for c1 in self.hand:
                 print(c1)
             print('this means your current score is ',\
-                  self.get_hand_value(), 'do you want a card?')
+                  self.get_hand_value(), '\tdo you want a card?')
             self.didnt_refuse_yet = utils.get_yes_or_no()
             return self.didnt_refuse_yet
         else:
             return False
 
     def recieve_card(self, card):
-        self.hand.append(card)
-        print('you got ', card)
+        #self.hand.append(card)
+        super().recieve_card(card)
+        print('you got ', card, ' gets us to ', self.get_hand_value())
         input('press enter to continue')

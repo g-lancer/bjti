@@ -11,35 +11,35 @@ NORMALDECK = 36
 class BlackjackTest(unittest.TestCase):
 #    failg = gamestate.GameStateBJ(2)  #added just for coverage
     g2 = gamestate.GameStateBJ(NORMALDECK)
-    dumbdummy = g2.create_player('dcpu')
+    dumb_dummy = g2.create_player('dcpu')
 
-    cardv3 = card.BjCard(1,1)        #here goes 3 of diamonds (value 3)
-    cardv10 = card.BjCard(0,8)       #10 of clubs
-    cardv10_2 = card.BjCard(3,8)     #10 of spades
-    cardv11 = card.BjCard(0,12)      #Ace of clubs
-    cardv11_2 = card.BjCard(2,12)    #Ace of hearts
+    cardv3 = card.BJCard(1,1)        #here goes 3 of diamonds (value 3)
+    cardv10 = card.BJCard(0,8)       #10 of clubs
+    cardv10_2 = card.BJCard(3,8)     #10 of spades
+    cardv11 = card.BJCard(0,12)      #Ace of clubs
+    cardv11_2 = card.BJCard(2,12)    #Ace of hearts
 
 
-    def testcardvalue01(self):
+    def test_card_value_01(self):
         print('testcardvalue01')
-        bjcard = card.BjCard(0,1)
-        self.failUnless(bjcard.value() == 3)
+        bj_card = card.BJCard(0,1)
+        self.failUnless(b_card.value() == 3)
 
-    def testdecknorepeats(self):
+    def test_deck_no_repeats(self):
         print('testdecknorepeats')
-        d1 = card.BjCard.create_deck(36,1)
+        d1 = card.BJCard.create_deck(36,1)
         d1 = sorted(d1, key = lambda c1: c1.suit*100 + c1.name)
-        hasdoubles = False
+        has_doubles = False
         for i in range(1,len(d1)):
-            hasdoubles = hasdoubles and d1[i] == d1[i-1]
-        self.failIf(hasdoubles)
+            has_doubles = has_doubles and d1[i] == d1[i-1]
+        self.failIf(has_doubles)
 
-    def testdecknumcards(self):
+    def test_deck_numcards(self):
         print('testdecknumcards')
-        d1 = card.BjCard.create_deck(36,1)
+        d1 = card.BJCard.create_deck(36,1)
         self.failUnless(len(d1) == 36)
 
-    def testnomorecards(self):
+    def test_no_more_cards(self):
         print('testnomorecards')
 #        #lets form a few hands of cards that don't need any more cards
 
@@ -64,7 +64,7 @@ class BlackjackTest(unittest.TestCase):
 
         self.failIf( pl1.has_space() or pl2.has_space() or pl3.has_space() or pl4.has_space())
 
-    def testmorecards(self):
+    def test_more_cards(self):
         print('testmorecards')
 #        #lets form a few hands of cards that don't need any more cards
 
@@ -87,21 +87,21 @@ class BlackjackTest(unittest.TestCase):
 
         self.failUnless(pl1.has_space() and pl2.has_space() and pl3.has_space() and pl3.has_space())
 
-    def testsmartcarddesire(self):
+    def test_smart_card_desire(self):
         print('testsmartcarddesire')
         p1 = self.g2.create_player('scpu')
         p1.recieve_card(self.cardv3)
         p1.recieve_card(self.cardv10)
         self.failUnless(p1.has_space())
 
-    def testbankcarddesire1(self):
+    def test_bank_card_desire1(self):
         print('testbankcarddesire1')
         b1 = self.g2.create_player('bank')
         b1.recieve_card(self.cardv3)
         b1.recieve_card(self.cardv10)
         self.failUnless(b1.wants_card())
 
-    def testbankcarddesire2(self):
+    def test_bank_card_desire_2(self):
         print('testbankcarddesire2')
         b1 = self.g2.create_player('bank')
         b1.recieve_card(self.cardv3)
@@ -110,19 +110,19 @@ class BlackjackTest(unittest.TestCase):
         b1.recieve_card(self.cardv10)
         self.failIf(b1.wants_card())
 
-    def testsmartcpudesiren(self):
+    def test_smart_cpu_desire_n(self):
         print('testsmartcpudesire')
         pl = self.g2.create_player('scpu')
         pl.recieve_card(self.cardv10)
         pl.recieve_card(self.cardv10_2)
         self.failIf(pl.wants_card())
 
-    def testsmartcpudesirey(self):
+    def test_smart_cpu_desire_y(self):
         pl = self.g2.create_player('scpu')
         pl.recieve_card(self.cardv10)
         self.failUnless(pl.wants_card())
 
-    def testdumbplayer(self):
+    def test_dumb_player(self):
         pl = self.g2.create_player('dcpu')
         t = pl.wants_card()
         t = pl.wants_card()
@@ -130,26 +130,26 @@ class BlackjackTest(unittest.TestCase):
         t = pl.wants_card()
         self.failUnless(True)
 
-    def testhumany(self):
+    def test_human_y(self):
         print('testhumany')
         p1 = self.g2.create_player('human')
         print('you better say yes')
         self.failUnless(p1.wants_card())
 
-    def testhumann(self):
+    def test_human_n(self):
         print('testhumann')
         p1 = self.g2.create_player('human')
         print('you better say no')
         self.failIf(p1.wants_card())
 
-    def testgetmax1(self):
+    def test_get_max_1(self):
         print('testgetmax1')
         l1 = [0,0,0,0]
         methmax = utils.get_max_indexes(l1)
         expmax = list(range(len(l1)))
         self.failUnless(methmax == expmax)
 
-    def testgetmax2(self):
+    def test_get_max_2(self):
         print('testgetmax2')
         l1 = [0,20,3,20,18]
         methmax = utils.get_max_indexes(l1)
@@ -159,7 +159,7 @@ class BlackjackTest(unittest.TestCase):
 #    def testgame(self):
 #        playgame()
 
-    def testtoomanycards(self):
+    def test_too_many_cards(self):
         print('testtoomanycards')
         hpl = self.g2.create_player('human')
         dpl = self.g2.create_player('dcpu')
@@ -176,7 +176,7 @@ class BlackjackTest(unittest.TestCase):
         self.failIf(hpl.wants_card() or dpl.wants_card()
                     or spl.wants_card() or bpl.wants_card())
 
-    def testgetwinners1(self):
+    def test_get_winners_1(self):
 
         pltype1 = 'random garbage gives me human'
 
@@ -199,7 +199,7 @@ class BlackjackTest(unittest.TestCase):
 
         self.failUnless(self.g2.get_leaders() == [2])
 
-    def testgetwinners2(self):
+    def test_get_winners_2(self):
         print('testgetwinners2')
 
         pltype1 = 'random garbage gives me human'
@@ -222,7 +222,7 @@ class BlackjackTest(unittest.TestCase):
         self.g2.playerlist = [pl1, pl2, pl3, pl4]
         self.failUnless(self.g2.get_leaders() == [0])
 
-    def testgetwinners3(self):
+    def test_get_winners_3(self):
         print('testgetwinners3')
 
         pltype1 = 'random garbage gives me human'
@@ -246,7 +246,7 @@ class BlackjackTest(unittest.TestCase):
 
         self.failUnless(self.g2.get_leaders() == [1])
 
-    def testgetwinners4(self):
+    def test_get_winners_4(self):
 
         pltype1 = 'random garbage gives me human'
 
@@ -269,7 +269,7 @@ class BlackjackTest(unittest.TestCase):
 
         self.failUnless(self.g2.get_leaders() == [1,2])
 
-    def testgetwinners5(self):
+    def test_get_winners_5(self):
 
         pltype1 = 'random garbage gives me human'
 
@@ -292,8 +292,37 @@ class BlackjackTest(unittest.TestCase):
         self.failUnless(self.g2.get_leaders() == [0,1,2])
 
 class DurakTest(unittest.TestCase):
-    def test_beat(self, attack_card, defence_card):
-        self.failUnless(defence_card.beats(attack_card))
+
+    def test_trump(self):
+        test_card = card.DurakCard(3, 8)
+        trump = 3
+        self.failUnless(test_card.is_trump(trump))
+
+    def test_beat_01(self):
+        attack_card = card.DurakCard(3, 8)
+        defence_card = card.DurakCard(3, 9)
+        self.failUnless(defence_card.beats(attack_card, 1))
+
+    def test_beat_02(self):
+        attack_card = card.DurakCard(3, 8)
+        defence_card = card.DurakCard(3, 7)
+        self.failIf(defence_card.beats(attack_card, 1))
+
+    def test_beat_03(self):
+        attack_card = card.DurakCard(3, 8)
+        defence_card = card.DurakCard(3, 8)
+        self.failIf(defence_card.beats(attack_card, 1))
+
+    def test_beat_04(self):
+        attack_card = card.DurakCard(3, 8)
+        defence_card = card.DurakCard(1, 6)
+        self.failUnless(defence_card.beats(attack_card, 1))
+
+    def test_beat_05(self):
+        attack_card = card.DurakCard(3, 8)
+        defence_card = card.DurakCard(1, 9)
+        self.failIf(defence_card.beats(attack_card, 2))
+
 
 def maintest():
     unittest.main()
@@ -303,6 +332,12 @@ def playgame():
     while anothergame:
         game = gamestate.GameStateBJ(NORMALDECK)
         anothergame = game.run_game()
+
+# while True:
+#     game = BlackJack(STANDART_DECK)
+#     game.run()
+#     if not ask_yes_no('Do you want to play again?'):
+#         break
 
 if __name__ == '__main__':
     playgame()

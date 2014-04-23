@@ -3,29 +3,25 @@ __author__ = 'Gl'
 import random
 import main
 
-class BjCard():
+class Card():
     suits = ['clubs', 'diamonds', 'hearts', 'spades']
     names = ['2', '3', '4', '5', '6', '7', '8',
              '9', '10', 'J', 'Q', 'K', 'A']
-    values = [2, 3, 4, 5, 6, 7, 8, 0, 10, 2, 3, 4, 11]
 
     def __init__(self, suit, name):
         self.suit = suit
         self.name = name
 
     def __str__(self):
-        stringtoprint = self.names[self.name] + ' of ' +\
-                        self.suits[self.suit] + ', value ' +\
-                        str(self.values[self.name])
-        return stringtoprint
+        return self.names[self.name] + ' of ' + self.suits[self.suit]
 
-    @staticmethod
-    def create_deck(decktype, numberofdecks):
+    @classmethod
+    def create_deck(cls, decktype, numberofdecks):
         deck = []
         if decktype == main.NORMALDECK:
-            for i in range(len(BjCard.suits)):
-                for j in range(4,len(BjCard.names)):
-                    c1 = BjCard(i,j)
+            for i in range(len(Card.suits)):
+                for j in range(4,len(Card.names)):
+                    c1 = cls(i,j)
                     deck.append(c1)
         else:
             print('unknown deck type, sry')
@@ -33,7 +29,34 @@ class BjCard():
         random.shuffle(deck)
         return deck
 
+class BJCard(Card):
+    values = [2, 3, 4, 5, 6, 7, 8, 0, 10, 2, 3, 4, 11]
 
+    def __str__(self):
+        stringtoprint = self.names[self.name] + ' of ' +\
+                        self.suits[self.suit] + ', value ' +\
+                        str(self.values[self.name])
+        return stringtoprint
 
     def value(self):
         return self.values[self.name]
+
+class DurakCard(Card):
+
+    def is_trump(self, trump):
+        if self.suit == trump:
+            return True
+        else:
+            return False
+
+    def beats(self,card_to_beat, trump):
+        if self.suit == card_to_beat.suit:
+            if self.name > card_to_beat.name:
+                return True
+            else:
+                return False
+        else:
+            if self.suit == trump:
+                return True
+            else:
+                return False

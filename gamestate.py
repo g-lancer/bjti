@@ -12,7 +12,7 @@ class GameStateBJ():
     def __init__(self, decktype1):
         self.decktype = decktype1
         self.create_list_of_players()
-        self.deck = card.BjCard.create_deck(self.decktype,len(self.playerlist))
+        self.deck = card.BJCard.create_deck(self.decktype,len(self.playerlist))
 
     def create_player(self,playertype):
         if playertype == 'dcpu':
@@ -27,16 +27,16 @@ class GameStateBJ():
 
     def create_list_of_players(self):
         banker = self.create_player('bank')
-        humanplayer = self.create_player('human')
-        roster = [banker, humanplayer]
+        human_player = self.create_player('human')
+        roster = [banker, human_player]
         print('we have 1 banker and one human player here')
         print('tell me how many dumb CPUs you want added to this game')
-        dumbcpunumber = utils.get_number(MIN_PLAYERS, MAX_PLAYERS)
-        for i in range(dumbcpunumber):
+        dumb_cpu_number = utils.get_number(MIN_PLAYERS, MAX_PLAYERS)
+        for i in range(dumb_cpu_number):
             roster.append(self.create_player('dcpu'))
         print('and now tell me how many smart CPUs you want here')
-        smartcpunumber = utils.get_number(MIN_PLAYERS, MAX_PLAYERS)
-        for i in range(smartcpunumber):
+        smart_cpu_number = utils.get_number(MIN_PLAYERS, MAX_PLAYERS)
+        for i in range(smart_cpu_number):
             roster.append(self.create_player('scpu'))
         self.playerlist = roster
 
@@ -46,13 +46,13 @@ class GameStateBJ():
             pl.recieve_card(self.deck.pop(0))
 
     def play_rounds(self):
-        cardsnotwanted = False
-        while not cardsnotwanted:
-            cardsnotwanted = True
+        cards_not_wanted = False
+        while not cards_not_wanted:
+            cards_not_wanted = True
             for pl in self.playerlist:
                 if pl.wants_card():
                     pl.recieve_card(self.deck.pop(0))
-                    cardsnotwanted = False
+                    cards_not_wanted = False
 
     def get_leaders(self):
         #lets form a list of player points
