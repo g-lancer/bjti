@@ -313,3 +313,37 @@ if __name__ == '__main__':
 #https://www.guildwars2.com/en/news/the-megaserver-system-world-bosses-and-events/
 #http://habrahabr.ru/company/stratoplan/blog/218217/
 #http://www.imdb.com/title/tt1843230/
+
+
+# Durak analytics
+#
+#gamestate.__init__(self):
+# match_counter = 0
+#
+# game.create_deck()
+#
+# game.give_players_cards(self)
+# game.select_trump             (may be needs to be put into give cards)
+# game.select_1st_player        (may ditch this
+
+#game.play()                 (play rounds?)
+# while len(active_players > 1):
+#  game.select_next_player()
+#  game.attack_round()
+#   game.play_attack_card
+#  game.give_cards()
+#
+#  game.announce_fool(self)
+# match_counter += 1
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#

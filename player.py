@@ -60,7 +60,7 @@ class SmartCPUPlayer(Player):
             numberofsuitablecards = 0
             for c1 in tempdeck:
                 if c1.value() <= maxvalue:
-                    numberofsuitablecards = numberofsuitablecards + 1
+                    numberofsuitablecards += 1
             chance = numberofsuitablecards/len(tempdeck)
             if chance > 0.5:
                 return True

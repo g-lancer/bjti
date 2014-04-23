@@ -1,6 +1,7 @@
 __author__ = 'Gl'
 
 import random
+import main
 
 class BjCard():
     suits = ['clubs', 'diamonds', 'hearts', 'spades']
@@ -21,7 +22,7 @@ class BjCard():
     @staticmethod
     def create_deck(decktype, numberofdecks):
         deck = []
-        if decktype == 36:
+        if decktype == main.NORMALDECK:
             for i in range(len(BjCard.suits)):
                 for j in range(4,len(BjCard.names)):
                     c1 = BjCard(i,j)
