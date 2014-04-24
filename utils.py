@@ -28,3 +28,12 @@ def get_max_indexes(list_):
         if list_[i] == max_value:
             list_of_maximums.append(i)
     return list_of_maximums
+
+def get_cycle(array_to_cycle, start_num):
+    final_order = []
+    for i in range(start_num, start_num + len(array_to_cycle)):
+        if i < len(array_to_cycle):
+            final_order.append(array_to_cycle[i])
+        else:
+            final_order.append(i - len(array_to_cycle))
+    return final_order

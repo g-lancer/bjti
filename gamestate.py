@@ -101,18 +101,13 @@ class DurakGameState():
 
     number_of_decks = 1
     playerlist = []
+    active_players = playerlist         #wrong one
 
     def __init__(self, deck_type):
         self.deck = card.DurakCard(deck_type, self.number_of_decks)
 
     def refill_hands(self, starting_player=0):
-        player_order = []
-
-        for i in range(starting_player, starting_player + len(self.playerlist)):
-            if i < len(self.playerlist):
-                player_order.append(i)
-            else:
-                player_order.append(i - len(self.playerlist))
+        player_order = utils.get_cycle(self.active_players, starting_player)
 
         for pl_num in player_order:
             while len(self.playerlist[pl_num].show_hand()) < self.MAX_CARDS:
@@ -133,3 +128,7 @@ class DurakGameState():
             self.trump_card = potential_trump
             self.trump = potential_trump.tell_trump_suit()
             print('trump card was ', potential_trump)
+
+    def attack_round(self, starting_player):
+        attackers = utils.get_cycle(self.active_players, starting_player)
+        defender = attackers.pop(1)
