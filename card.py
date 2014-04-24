@@ -16,7 +16,7 @@ class Card():
         return self.names[self.name] + ' of ' + self.suits[self.suit]
 
     @classmethod
-    def create_deck(cls, decktype, numberofdecks):
+    def create_deck(cls, decktype, number_of_decks):
         deck = []
         if decktype == main.NORMALDECK:
             for i in range(len(Card.suits)):
@@ -25,7 +25,7 @@ class Card():
                     deck.append(c1)
         else:
             print('unknown deck type, sry')
-        deck = deck * numberofdecks
+        deck = deck * number_of_decks
         random.shuffle(deck)
         return deck
 
@@ -60,3 +60,7 @@ class DurakCard(Card):
                 return True
             else:
                 return False
+
+    def tell_trump_suit(self):
+        print('we have a trump!, it\'s ', self.suit)
+        return self.suit

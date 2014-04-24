@@ -4,10 +4,10 @@ import card
 import player
 import utils
 
-MIN_PLAYERS = 0
-MAX_PLAYERS = 7
 
 class GameStateBJ():
+    MIN_PLAYERS = 0
+    MAX_PLAYERS = 7
 
     def __init__(self, decktype1):
         self.decktype = decktype1
@@ -31,11 +31,11 @@ class GameStateBJ():
         roster = [banker, human_player]
         print('we have 1 banker and one human player here')
         print('tell me how many dumb CPUs you want added to this game')
-        dumb_cpu_number = utils.get_number(MIN_PLAYERS, MAX_PLAYERS)
+        dumb_cpu_number = utils.get_number(self.MIN_PLAYERS, self.MAX_PLAYERS)
         for i in range(dumb_cpu_number):
             roster.append(self.create_player('dcpu'))
         print('and now tell me how many smart CPUs you want here')
-        smart_cpu_number = utils.get_number(MIN_PLAYERS, MAX_PLAYERS)
+        smart_cpu_number = utils.get_number(self.MIN_PLAYERS, self.MAX_PLAYERS)
         for i in range(smart_cpu_number):
             roster.append(self.create_player('scpu'))
         self.playerlist = roster
@@ -93,3 +93,43 @@ class GameStateBJ():
         print('ok, game\'s over, do you want another one?')
         print('...')
         return utils.get_yes_or_no()
+
+class DurakGameState():
+    MAX_CARDS = 6
+    MIN_PLAYERS = 2
+    MAX_PLAYERS = 5
+
+    number_of_decks = 1
+    playerlist = []
+
+    def __init__(self, deck_type):
+        self.deck = card.DurakCard(deck_type, self.number_of_decks)
+
+    def refill_hands(self, starting_player=0):
+        player_order = []
+
+        for i in range(starting_player, starting_player + len(self.playerlist)):
+            if i < len(self.playerlist):
+                player_order.append(i)
+            else:
+                player_order.append(i - len(self.playerlist))
+
+        for pl_num in player_order:
+            while len(self.playerlist[pl_num].show_hand()) < self.MAX_CARDS:
+                if len(self.deck) > 0:
+                    self.playerlist[pl_num].recieve_card(self.deck.pop(0))
+                else:
+                    print('player ', pl_num, ' tried to take card, but deck is empty now!')
+                    break
+
+    def give_starting_cards_and_define_trump(self):
+        potential_trump = self.deck[len(self.deck) - 1)
+        self.refill_hands()
+        if len(self.deck) > 0:
+            self.trump_card = self.deck[0]
+            print('trump is ', self.trump_card)
+            self.trump = self.trump_card.tell_trump_suit()
+        else:
+            self.trump_card = potential_trump
+            self.trump = potential_trump.tell_trump_suit()
+            print('trump card was ', potential_trump)

@@ -20,14 +20,16 @@ class Player():
     def show_hand(self):
         return self.hand
 
+    def recieve_card(self, card):
+        self.hand.append(card)
+
+class BJPlayer(Player):
+
     def get_hand_value(self):
         val = 0
         for card in self.hand:
             val = val + card.value()
         return val
-
-    def recieve_card(self, card):
-        self.hand.append(card)
 
     def has_space(self):
         val = self.get_hand_value()
@@ -37,7 +39,7 @@ class Player():
             return False
 
 
-class DumbCPUPlayer(Player):
+class BJDumbCPUPlayer(BJPlayer):
     player_type = 'dumb cpu'
 
     def wants_card(self):
@@ -46,7 +48,7 @@ class DumbCPUPlayer(Player):
         else:
             return False
 
-class SmartCPUPlayer(Player):
+class BJSmartCPUPlayer(BJPlayer):
     player_type = 'smart cpu'
 
     def __init__(self, decktype):
@@ -70,7 +72,7 @@ class SmartCPUPlayer(Player):
             return False
 
 
-class Bank17(Player):
+class BJBank17(BJPlayer):
     player_type = 'bank'
 
     def wants_card(self):
@@ -83,7 +85,7 @@ class Bank17(Player):
             return False
 
 
-class HumanPlayer(Player):
+class BJHumanPlayer(BJPlayer):
     didnt_refuse_yet = True
     player_type = 'human'
 
@@ -107,3 +109,9 @@ class HumanPlayer(Player):
         super().recieve_card(card)
         print('you got ', card, ' gets us to ', self.get_hand_value())
         input('press enter to continue')
+
+class DurakPlayer(Player):
+
+    def decide_action(self, trump):
+        pass
+
