@@ -9,6 +9,8 @@ import utils
 NORMALDECK = 36
 
 class BlackjackTest(unittest.TestCase):
+    if __name__ == '__main__':
+        print('hi, we\'re running test in main')
 #    failg = gamestate.GameStateBJ(2)  #added just for coverage
     g2 = gamestate.GameStateBJ(NORMALDECK)
     dumb_dummy = g2.create_player('dcpu')
@@ -348,6 +350,12 @@ if __name__ == '__main__':
 #https://www.guildwars2.com/en/news/the-megaserver-system-world-bosses-and-events/
 #http://habrahabr.ru/company/stratoplan/blog/218217/
 #http://www.imdb.com/title/tt1843230/
+#http://habrahabr.ru/post/219989/
+#http://habrahabr.ru/post/220773/
+#http://habrahabr.ru/company/gtv/blog/220421/
+#http://zillionsofgames.com/games/index.html
+#https://www.youtube.com/watch?v=nxAabW7JfTQ
+#a2127187@drdrb.net
 
 
 # Durak analytics

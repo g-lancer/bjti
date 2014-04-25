@@ -132,3 +132,7 @@ class DurakGameState():
     def attack_round(self, starting_player):
         attackers = utils.get_cycle(self.active_players, starting_player)
         defender = attackers.pop(1)
+        max_number_of_attack_cards = len(self.active_players[defender].showhand()) - 1
+
+        self.active_players[attackers[0]].play_attack()
+
