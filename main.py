@@ -354,7 +354,6 @@ if __name__ == '__main__':
 #http://habrahabr.ru/post/220773/
 #http://habrahabr.ru/company/gtv/blog/220421/
 #http://zillionsofgames.com/games/index.html
-#https://www.youtube.com/watch?v=nxAabW7JfTQ
 #a2127187@drdrb.net
 
 

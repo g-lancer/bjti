@@ -61,6 +61,9 @@ class DurakCard(Card):
             else:
                 return False
 
-    def tell_trump_suit(self):
-        print('we have a trump!, it\'s ', self.suit)
+    def tell_suit(self):
+        #print('we have a trump!, it\'s ', self.suit)
         return self.suit
+
+    def tell_rank(self):
+        return self.names.index(self.name)

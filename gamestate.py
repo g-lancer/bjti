@@ -100,11 +100,13 @@ class DurakGameState():
     MAX_PLAYERS = 5
 
     number_of_decks = 1
+
     playerlist = []
     active_players = playerlist         #wrong one
 
     def __init__(self, deck_type):
         self.deck = card.DurakCard(deck_type, self.number_of_decks)
+
 
     def refill_hands(self, starting_player=0):
         player_order = utils.get_cycle(self.active_players, starting_player)
@@ -129,10 +131,19 @@ class DurakGameState():
             self.trump = potential_trump.tell_trump_suit()
             print('trump card was ', potential_trump)
 
-    def attack_round(self, starting_player):
+    def find_lowest_trump_owner(self):
+        for pl1 in self.playerlist:
+
+
+
+    def play_round(self, starting_player):
         attackers = utils.get_cycle(self.active_players, starting_player)
         defender = attackers.pop(1)
         max_number_of_attack_cards = len(self.active_players[defender].showhand()) - 1
+        self.playerlist[self.next_move]
 
         self.active_players[attackers[0]].play_attack()
+
+        while True:
+            self.starting_player
 
