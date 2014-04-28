@@ -132,7 +132,12 @@ class DurakGameState():
             print('trump card was ', potential_trump)
 
     def find_lowest_trump_owner(self):
-        for pl1 in self.playerlist:
+        trumplist = card.DurakCard.trump_roster(self.trump)
+        for tr1 in trumplist:
+            for pl1 in self.playerlist:
+                if tr1 in pl1.show_hand():
+                    return self.playerlist.index(pl1)
+        print('wtf, no lowest trump?')
 
 
 

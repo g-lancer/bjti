@@ -43,6 +43,13 @@ class BJCard(Card):
 
 class DurakCard(Card):
 
+    @classmethod
+    def trump_roster(trump):
+        tr_roster = []
+        for n1 in range(len(super.names)):
+            tr_roster.append(DurakCard(super.suit[trump], n1))
+        return tr_roster
+
     def is_trump(self, trump):
         if self.suit == trump:
             return True
