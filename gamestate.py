@@ -106,6 +106,10 @@ class DurakGameState():
 
     def __init__(self, deck_type):
         self.deck = card.DurakCard(deck_type, self.number_of_decks)
+        self.playerlist = self.create_list_of_players()
+        self.find_trump()
+        self.give_starting_cards()
+        self.starting_player_index = self.find_lowest_trump_owner()
 
 
     def refill_hands(self, starting_player=0):
@@ -138,8 +142,6 @@ class DurakGameState():
                 if tr1 in pl1.show_hand():
                     return self.playerlist.index(pl1)
         print('wtf, no lowest trump?')
-
-
 
     def play_round(self, starting_player):
         attackers = utils.get_cycle(self.active_players, starting_player)
