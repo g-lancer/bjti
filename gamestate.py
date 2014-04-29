@@ -105,7 +105,7 @@ class DurakGameState():
     active_players = playerlist         #wrong one
 
     def __init__(self, deck_type):
-        self.deck = card.DurakCard(deck_type, self.number_of_decks)
+        self.deck = card.DurakCard.create_deck(deck_type, self.number_of_decks)
         self.playerlist = self.create_list_of_players()
         self.find_trump()
         self.give_starting_cards()
@@ -123,17 +123,19 @@ class DurakGameState():
                     print('player ', pl_num, ' tried to take card, but deck is empty now!')
                     break
 
-    def give_starting_cards_and_define_trump(self):
-        potential_trump = self.deck[len(self.deck) - 1)
-        self.refill_hands()
-        if len(self.deck) > 0:
-            self.trump_card = self.deck[0]
-            print('trump is ', self.trump_card)
-            self.trump = self.trump_card.tell_trump_suit()
+    def find_trump(self):
+        number_of_staring_cards = len(self.playerlist)*6
+        if len(self.deck) < number_of_staring_cards:
+            print('wtf, we don\'t have cards for everybody')
+        elif len(self.deck) == number_of_staring_cards:
+            self.trump_card = self.deck[number_of_staring_cards - 1]
+            self.trump = self.deck[number_of_staring_cards - 1].tell_suit()
         else:
-            self.trump_card = potential_trump
-            self.trump = potential_trump.tell_trump_suit()
-            print('trump card was ', potential_trump)
+            self.trump_card = self.deck[number_of_staring_cards]
+            self.trump = self.deck[number_of_staring_cards].tell_suit()
+
+    def give_starting_cards(self):
+        self.refill_hands()
 
     def find_lowest_trump_owner(self):
         trumplist = card.DurakCard.trump_roster(self.trump)
