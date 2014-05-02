@@ -14,15 +14,15 @@ class GameStateBJ():
         self.create_list_of_players()
         self.deck = card.BJCard.create_deck(self.decktype,len(self.playerlist))
 
-    def create_player(self,playertype):
+    def create_player(self, playertype):
         if playertype == 'dcpu':
-            p = player.DumbCPUPlayer()
+            p = player.BJDumbCPUPlayer()
         elif playertype == 'scpu':
-            p = player.SmartCPUPlayer(self.decktype)
+            p = player.BJSmartCPUPlayer(self.decktype)
         elif playertype == 'bank':
-            p = player.Bank17()
+            p = player.BJBank17()
         else:
-            p = player.HumanPlayer()
+            p = player.BJHumanPlayer()
         return p
 
     def create_list_of_players(self):
@@ -108,8 +108,18 @@ class DurakGameState():
         self.deck = card.DurakCard.create_deck(deck_type, self.number_of_decks)
         self.playerlist = self.create_list_of_players()
         self.find_trump()
-        self.give_starting_cards()
+        self.refill_hands()
         self.starting_player_index = self.find_lowest_trump_owner()
+
+    def create_durak_player(self, playertype):
+        if playertype == 'cpu':
+            p = player.DurakDumbCPUPlayer()
+        else:
+            p = player.DurakPlayer()
+        return p
+
+    def create_list_of_players(self):
+
 
 
     def refill_hands(self, starting_player=0):
@@ -120,8 +130,11 @@ class DurakGameState():
                 if len(self.deck) > 0:
                     self.playerlist[pl_num].recieve_card(self.deck.pop(0))
                 else:
-                    print('player ', pl_num, ' tried to take card, but deck is empty now!')
-                    break
+                    print('welp, deck is empty')
+                    print('player ', pl_num, ' got no card ')
+                    return False
+        return True
+
 
     def find_trump(self):
         number_of_staring_cards = len(self.playerlist)*6
@@ -133,9 +146,6 @@ class DurakGameState():
         else:
             self.trump_card = self.deck[number_of_staring_cards]
             self.trump = self.deck[number_of_staring_cards].tell_suit()
-
-    def give_starting_cards(self):
-        self.refill_hands()
 
     def find_lowest_trump_owner(self):
         trumplist = card.DurakCard.trump_roster(self.trump)
